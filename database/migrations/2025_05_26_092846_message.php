@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->timestamps();
-        });
+        Schema::create('message', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->text('content');
+        $table->string('image_path')->nullable(); // URL ou chemin S3
+        $table->timestamps();
+    });
     }
 
     /**
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('message');
     }
 };

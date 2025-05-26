@@ -119,16 +119,18 @@
 
     @forelse($messages as $msg)
         <div class="message">
-            <strong>{{ $msg['nom'] }}</strong> <em>({{ $msg['date'] }})</em>
-            <p>{{ $msg['message'] }}</p>
+            <strong>{{ $msg->name }}</strong> <em>({{ $msg->created_at->format('d/m/Y H:i') }})</em>
+            <p>{{ $msg->content }}</p>
 
-            @if(!empty($msg['image']))
-                <img src="{{ asset('storage/' . $msg['image']) }}" alt="Image">
+            @if(!empty($msg->image_url))
+                <img src="{{ $msg->image_url }}" alt="Image">
             @endif
         </div>
     @empty
         <p>Aucun message pour le moment.</p>
     @endforelse
+
+</body>
 
 </body>
 </html>
