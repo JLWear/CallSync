@@ -32,6 +32,7 @@ class LivreOrController extends Controller
     $imagePath = null;
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('messages', 's3');
+        Storage::disk('s3')->setVisibility($imagePath, 'public');
     }
 
     Message::create([

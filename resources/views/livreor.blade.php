@@ -122,7 +122,6 @@
         <strong>{{ $msg->name }}</strong> <em>({{ $msg->created_at->format('d/m/Y H:i') }})</em>
         <p>{{ $msg->content }}</p>
 
-        <p>{{ $msg->image_url }}</p>
         @if($msg->image_url)
             <img src="{{ $msg->image_url }}" alt="Image">
         @endif
