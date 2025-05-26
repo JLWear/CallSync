@@ -22,29 +22,24 @@ class LivreOrController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'message' => 'required|string|max:1000',
-            'image' => 'nullable|image|max:2048',
-        ]);
+{
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'message' => 'required|string|max:1000',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $imagePath = null;
-
-        if ($request->hasFile('image')) {
-            // Stocker l'image dans le bucket S3, dossier 'messages'
-            $imagePath = $request->file('image')->store('messages', 's3');
-
-            // Rendre l'image publique
-            Storage::disk('s3')->setVisibility($imagePath, 'public');
-        }
-
-        Message::create([
-            'name' => $request->input('nom'),
-            'content' => $request->input('message'),
-            'image_path' => $imagePath,
-        ]);
-
-        return redirect()->route('livreor.index')->with('success', 'Merci pour votre message !');
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('messages', 's3');
     }
+
+    Message::create([
+        'name' => $request->input('nom'),
+        'content' => $request->input('message'),
+        'image_path' => $imagePath,
+    ]);
+
+    return redirect()->route('livreor.index')->with('success', 'Merci pour votre message !');
+}
 }
