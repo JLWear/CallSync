@@ -11,10 +11,11 @@ class LivreOrController extends Controller
     {
         $messages = Message::latest()->get();
 
+        // Générer l'URL publique S3 pour chaque image
         foreach ($messages as $message) {
-            if ($message->image_path) {
-                $message->image_url = Storage::disk('s3')->url($message->image_path);
-            }
+            $message->image_url = $message->image_path
+                ? Storage::disk('s3')->url($message->image_path)
+                : null;
         }
 
         return view('livreor', compact('messages'));
@@ -31,7 +32,11 @@ class LivreOrController extends Controller
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $imagePath = Storage::disk('s3')->put('messages', $request->file('image'), 'public');
+            // Stocker l'image dans le bucket S3, dossier 'messages'
+            $imagePath = $request->file('image')->store('messages', 's3');
+
+            // Rendre l'image publique
+            Storage::disk('s3')->setVisibility($imagePath, 'public');
         }
 
         Message::create([
