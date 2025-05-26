@@ -1,3 +1,28 @@
+## Service AWS
+
+- EC2
+- RDS
+- S3
+
+## Configuration
+
+Pour le S3 désactivation du paramètre : "Bloquer l'accès public (paramètres de compartiment)"
+Ajout d'une stratégie de compartiment : 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::s3callsync/*"
+        }
+    ]
+}
+
+Pour le EC2 et le RDS création de groupe de sécurité avec règle entrante et règle sortante pour communiquer entre les deux services.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
